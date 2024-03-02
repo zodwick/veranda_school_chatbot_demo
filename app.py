@@ -26,6 +26,12 @@ if prompt := st.chat_input():
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    msg = web_search(prompt, school_website, schoolname, language)
+    msg, urls = web_search(prompt, school_website, schoolname, language)
+    if urls:
+        st.sidebar.divider()
+        st.sidebar.markdown("Referred Links")
+        for url in urls:
+            st.sidebar.markdown(f"- [{url}]({url})")
+        st.sidebar.divider()
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
